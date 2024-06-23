@@ -1,5 +1,4 @@
 import mongoose, { InferSchemaType } from "mongoose";
-
 const menuItemSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -9,9 +8,7 @@ const menuItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
 });
-
 export type MenuItemType = InferSchemaType<typeof menuItemSchema>;
-
 const restaurantSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   restaurantName: { type: String, required: true },
@@ -21,9 +18,8 @@ const restaurantSchema = new mongoose.Schema({
   estimatedDeliveryTime: { type: Number, required: true },
   cuisines: [{ type: String, required: true }],
   menuItems: [menuItemSchema],
-  imageUrl: { type: String, required: true },
+  imageId: { type: mongoose.Schema.Types.ObjectId, ref: "Image" },
   lastUpdated: { type: Date, required: true },
 });
-
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 export default Restaurant;

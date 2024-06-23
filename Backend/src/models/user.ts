@@ -1,27 +1,15 @@
 import mongoose from "mongoose";
-
-const userSchema = new mongoose.Schema({
-  auth0Id: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-  },
-  addressLine1: {
-    type: String,
-  },
-  city: {
-    type: String,
-  },
-  country: {
-    type: String,
-  },
-});
-
-const User = mongoose.model("User", userSchema);
+const {Schema} = mongoose;
+const UserSchema = new Schema({
+  imageId: { type: mongoose.Schema.Types.ObjectId, ref: 'Image' },
+  name: String,
+  email: {type:String, unique:true},
+  password: String,
+  hotels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Hotel' }],
+  phone: Number,
+  longtitude: Number,
+  latitude: Number, 
+  userType: String,
+},{timestamps:true});
+const User = mongoose.model('User', UserSchema);
 export default User;
