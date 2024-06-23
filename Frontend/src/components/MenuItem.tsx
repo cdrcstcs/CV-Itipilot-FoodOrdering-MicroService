@@ -1,8 +1,8 @@
-import { MenuItem } from "../types";
+import { MenuItemtype } from "../types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 type Props = {
-  menuItem: MenuItem;
+  menuItem: MenuItemtype;
   addToCart: () => void;
 };
 
