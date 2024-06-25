@@ -7,18 +7,12 @@ import {
 import OrderItemCard from "@/components/OrderItemCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
-
 const ManageRestaurantPage = () => {
-  const { createRestaurant, isLoading: isCreateLoading } =
-    useCreateMyRestaurant();
+  const { createRestaurant, isLoading: isCreateLoading } = useCreateMyRestaurant();
   const { restaurant } = useGetMyRestaurant();
-  const { updateRestaurant, isLoading: isUpdateLoading } =
-    useUpdateMyRestaurant();
-
+  const { updateRestaurant, isLoading: isUpdateLoading } = useUpdateMyRestaurant();
   const { orders } = useGetMyRestaurantOrders();
-
   const isEditing = !!restaurant;
-
   return (
     <Tabs defaultValue="orders">
       <TabsList>
@@ -44,5 +38,4 @@ const ManageRestaurantPage = () => {
     </Tabs>
   );
 };
-
 export default ManageRestaurantPage;

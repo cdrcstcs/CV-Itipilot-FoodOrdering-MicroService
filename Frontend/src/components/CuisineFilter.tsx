@@ -3,14 +3,12 @@ import { Label } from "./ui/label";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import { ChangeEvent } from "react";
 import { Button } from "./ui/button";
-
 type Props = {
   onChange: (cuisines: string[]) => void;
   selectedCuisines: string[];
   isExpanded: boolean;
   onExpandedClick: () => void;
 };
-
 const CuisineFilter = ({
   onChange,
   selectedCuisines,
@@ -20,16 +18,12 @@ const CuisineFilter = ({
   const handleCuisinesChange = (event: ChangeEvent<HTMLInputElement>) => {
     const clickedCuisine = event.target.value;
     const isChecked = event.target.checked;
-
     const newCuisinesList = isChecked
       ? [...selectedCuisines, clickedCuisine]
       : selectedCuisines.filter((cuisine) => cuisine !== clickedCuisine);
-
     onChange(newCuisinesList);
   };
-
   const handleCuisinesReset = () => onChange([]);
-
   return (
     <>
       <div className="flex justify-between items-center px-2">
@@ -41,7 +35,6 @@ const CuisineFilter = ({
           Reset Filters
         </div>
       </div>
-
       <div className="space-y-2 flex flex-col">
         {cuisineList
           .slice(0, isExpanded ? cuisineList.length : 7)
@@ -71,7 +64,6 @@ const CuisineFilter = ({
               </div>
             );
           })}
-
         <Button
           onClick={onExpandedClick}
           variant="link"
@@ -91,5 +83,4 @@ const CuisineFilter = ({
     </>
   );
 };
-
 export default CuisineFilter;

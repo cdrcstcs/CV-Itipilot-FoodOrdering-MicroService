@@ -54,7 +54,21 @@ export type Order = {
   createdAt: string;
   restaurantId: string;
 };
-
+export type CreateOrderType = {
+  _id?: string;
+  cartItems: {
+    menuItemId: string;
+    name: string;
+    quantity: string;
+  }[];
+  deliveryDetails: {
+    name: string;
+    addressLine1: string;
+    city: string;
+    email: string;
+  };
+  restaurantId: string;
+}
 export type RestaurantSearchResponse = {
   data: Restaurant[];
   pagination: {

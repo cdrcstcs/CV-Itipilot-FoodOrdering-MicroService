@@ -1,9 +1,6 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/layout";
 import HomePage from "./pages/HomePage";
-import AuthCallbackPage from "./pages/AuthCallbackPage";
-import UserProfilePage from "./pages/UserProfilePage";
-import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
@@ -15,16 +12,15 @@ const AppRoutes = () => {
       <Route
         path="/"
         element={
-          <Layout showHero>
+          <Layout>
             <HomePage />
           </Layout>
         }
       />
-      <Route path="/auth-callback" element={<AuthCallbackPage />} />
       <Route
         path="/search/:city"
         element={
-          <Layout showHero={false}>
+          <Layout>
             <SearchPage />
           </Layout>
         }
@@ -32,39 +28,27 @@ const AppRoutes = () => {
       <Route
         path="/detail/:restaurantId"
         element={
-          <Layout showHero={false}>
+          <Layout>
             <DetailPage />
           </Layout>
         }
       />
-      <Route element={<ProtectedRoute />}>
-        <Route
-          path="/order-status"
-          element={
-            <Layout>
-              <OrderStatusPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/user-profile"
-          element={
-            <Layout>
-              <UserProfilePage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/manage-restaurant"
-          element={
-            <Layout>
-              <ManageRestaurantPage />
-            </Layout>
-          }
-        />
-      </Route>
-
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route
+        path="/order-status"
+        element={
+          <Layout>
+            <OrderStatusPage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/manage-restaurant"
+        element={
+          <Layout>
+            <ManageRestaurantPage />
+          </Layout>
+        }
+      />
     </Routes>
   );
 };

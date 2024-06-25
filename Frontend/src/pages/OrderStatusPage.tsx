@@ -2,18 +2,14 @@ import { useGetMyOrders } from "@/api/OrderApi";
 import OrderStatusDetail from "@/components/OrderStatusDetail";
 import OrderStatusHeader from "@/components/OrderStatusHeader";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-
 const OrderStatusPage = () => {
   const { orders, isLoading } = useGetMyOrders();
-
   if (isLoading) {
     return "Loading...";
   }
-
   if (!orders || orders.length === 0) {
     return "No orders found";
   }
-
   return (
     <div className="space-y-10">
       {orders.map((order) => (
@@ -33,5 +29,4 @@ const OrderStatusPage = () => {
     </div>
   );
 };
-
 export default OrderStatusPage;

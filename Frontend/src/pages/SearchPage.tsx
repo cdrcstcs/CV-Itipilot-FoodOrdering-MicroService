@@ -7,14 +7,12 @@ import SearchResultInfo from "@/components/SearchResultInfo";
 import SortOptionDropdown from "@/components/SortOptionDropdown";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-
 export type SearchState = {
   searchQuery: string;
   page: number;
   selectedCuisines: string[];
   sortOption: string;
 };
-
 const SearchPage = () => {
   const { city } = useParams();
   const [searchState, setSearchState] = useState<SearchState>({
@@ -23,11 +21,8 @@ const SearchPage = () => {
     selectedCuisines: [],
     sortOption: "bestMatch",
   });
-
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
   const { results, isLoading } = useSearchRestaurants(searchState, city);
-
   const setSortOption = (sortOption: string) => {
     setSearchState((prevState) => ({
       ...prevState,
@@ -35,7 +30,6 @@ const SearchPage = () => {
       page: 1,
     }));
   };
-
   const setSelectedCuisines = (selectedCuisines: string[]) => {
     setSearchState((prevState) => ({
       ...prevState,
@@ -43,14 +37,12 @@ const SearchPage = () => {
       page: 1,
     }));
   };
-
   const setPage = (page: number) => {
     setSearchState((prevState) => ({
       ...prevState,
       page,
     }));
   };
-
   const setSearchQuery = (searchFormData: SearchForm) => {
     setSearchState((prevState) => ({
       ...prevState,
@@ -58,7 +50,6 @@ const SearchPage = () => {
       page: 1,
     }));
   };
-
   const resetSearch = () => {
     setSearchState((prevState) => ({
       ...prevState,
@@ -66,15 +57,12 @@ const SearchPage = () => {
       page: 1,
     }));
   };
-
   if (isLoading) {
     <span>Loading ...</span>;
   }
-
   if (!results?.data || !city) {
     return <span>No results found</span>;
   }
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
       <div id="cuisines-list">
@@ -101,7 +89,6 @@ const SearchPage = () => {
             onChange={(value) => setSortOption(value)}
           />
         </div>
-
         {results.data.map((restaurant) => (
           <SearchResultCard restaurant={restaurant} />
         ))}
@@ -114,5 +101,4 @@ const SearchPage = () => {
     </div>
   );
 };
-
 export default SearchPage;

@@ -7,4 +7,5 @@ router.get("/order", extractUserIdMiddleware, MyRestaurantController.getMyRestau
 router.patch("/order/:orderId/status", extractUserIdMiddleware, MyRestaurantController.updateOrderStatus);
 router.get("/", extractUserIdMiddleware, MyRestaurantController.getMyRestaurant);
 router.post("/", extractUserIdMiddleware, validateMyRestaurantRequest, MyRestaurantController.createMyRestaurant);
+router.put("/", extractUserIdMiddleware, validateMyRestaurantRequest, MyRestaurantController.updateMyRestaurant);
 export default router;

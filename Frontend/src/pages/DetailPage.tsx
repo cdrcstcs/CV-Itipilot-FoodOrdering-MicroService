@@ -8,35 +8,27 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "@/components/CheckoutButton";
-import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
-import { useCreateCheckoutSession } from "@/api/OrderApi";
-
+import { useCreateOrder } from "@/api/OrderApi"; // Assuming this is where you define useCreateOrder
 export type CartItem = {
   _id: string;
   name: string;
   price: number;
   quantity: number;
 };
-
 const DetailPage = () => {
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
-  const { createCheckoutSession, isLoading: isCheckoutLoading } =
-    useCreateCheckoutSession();
-
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
-
+  const { createOrder, isError, error } = useCreateOrder(); // Hook to create order
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItems) => {
       const existingCartItem = prevCartItems.find(
         (cartItem) => cartItem._id === menuItem._id
       );
-
       let updatedCartItems;
-
       if (existingCartItem) {
         updatedCartItems = prevCartItems.map((cartItem) =>
           cartItem._id === menuItem._id
@@ -54,36 +46,29 @@ const DetailPage = () => {
           },
         ];
       }
-
       sessionStorage.setItem(
         `cartItems-${restaurantId}`,
         JSON.stringify(updatedCartItems)
       );
-
       return updatedCartItems;
     });
   };
-
   const removeFromCart = (cartItem: CartItem) => {
     setCartItems((prevCartItems) => {
       const updatedCartItems = prevCartItems.filter(
         (item) => cartItem._id !== item._id
       );
-
       sessionStorage.setItem(
         `cartItems-${restaurantId}`,
         JSON.stringify(updatedCartItems)
       );
-
       return updatedCartItems;
     });
   };
-
-  const onCheckout = async (userFormData: UserFormData) => {
+  const onCheckout = async () => {
     if (!restaurant) {
       return;
     }
-
     const checkoutData = {
       cartItems: cartItems.map((cartItem) => ({
         menuItemId: cartItem._id,
@@ -92,22 +77,23 @@ const DetailPage = () => {
       })),
       restaurantId: restaurant._id,
       deliveryDetails: {
-        name: userFormData.name,
-        addressLine1: userFormData.addressLine1,
-        city: userFormData.city,
-        country: userFormData.country,
-        email: userFormData.email as string,
+        name: "John Doe", // Replace with actual user data
+        addressLine1: "123 Main St", // Replace with actual user data
+        city: "New York", // Replace with actual user data
+        country: "USA", // Replace with actual user data
+        email: "john.doe@example.com", // Replace with actual user data
       },
     };
-
-    const data = await createCheckoutSession(checkoutData);
-    window.location.href = data.url;
+    try {
+      const createdOrder = createOrder(checkoutData);
+      console.log("Order created successfully:", createdOrder);
+    } catch (err) {
+      console.error("Failed to create order:", err);
+    }
   };
-
   if (isLoading || !restaurant) {
     return "Loading...";
   }
-
   return (
     <div className="flex flex-col gap-10">
       <AspectRatio ratio={16 / 5}>
@@ -122,12 +108,12 @@ const DetailPage = () => {
           <span className="text-2xl font-bold tracking-tight">Menu</span>
           {restaurant.menuItems.map((menuItem) => (
             <MenuItem
+              key={menuItem._id}
               menuItem={menuItem}
               addToCart={() => addToCart(menuItem)}
             />
           ))}
         </div>
-
         <div>
           <Card>
             <OrderSummary
@@ -139,8 +125,8 @@ const DetailPage = () => {
               <CheckoutButton
                 disabled={cartItems.length === 0}
                 onCheckout={onCheckout}
-                isLoading={isCheckoutLoading}
               />
+              {isError && <p>Error: {error?.message}</p>}
             </CardFooter>
           </Card>
         </div>
@@ -148,5 +134,4 @@ const DetailPage = () => {
     </div>
   );
 };
-
 export default DetailPage;

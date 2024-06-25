@@ -1,10 +1,8 @@
 import { Order } from "@/types";
 import { Separator } from "./ui/separator";
-
 type Props = {
   order: Order;
 };
-
 const OrderStatusDetail = ({ order }: Props) => {
   return (
     <div className="space-y-5">
@@ -33,5 +31,4 @@ const OrderStatusDetail = ({ order }: Props) => {
     </div>
   );
 };
-
 export default OrderStatusDetail;
