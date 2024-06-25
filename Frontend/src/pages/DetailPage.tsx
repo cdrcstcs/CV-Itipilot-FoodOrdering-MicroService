@@ -12,6 +12,7 @@ import { useCreateOrder } from "@/api/OrderApi"; // Assuming this is where you d
 import { useGetMyUser } from "@/api/MyUserApi";
 import LoadingButton from "@/components/LoadingButton";
 import { useGetImageById } from "@/api/ImageApi";
+import { useNavigate } from "react-router-dom";
 export type CartItem = {
   _id: string;
   name: string;
@@ -19,6 +20,7 @@ export type CartItem = {
   quantity: number;
 };
 const DetailPage = () => {
+  const navigate = useNavigate();
   const { currentUser, isLoading: isUserLoading } = useGetMyUser();
   if (isUserLoading) {
     return <LoadingButton></LoadingButton>;
@@ -98,6 +100,7 @@ const DetailPage = () => {
     try {
       const createdOrder = createOrder(checkoutData);
       console.log("Order created successfully:", createdOrder);
+      navigate('/order-status');
     } catch (err) {
       console.error("Failed to create order:", err);
     }

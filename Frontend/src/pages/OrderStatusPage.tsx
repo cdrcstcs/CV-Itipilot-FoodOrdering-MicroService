@@ -3,10 +3,11 @@ import OrderStatusDetail from "@/components/OrderStatusDetail";
 import OrderStatusHeader from "@/components/OrderStatusHeader";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useGetImageById } from "@/api/ImageApi";
+import LoadingButton from "@/components/LoadingButton";
 const OrderStatusPage = () => {
   const { orders, isLoading } = useGetMyOrders();
   if (isLoading) {
-    return "Loading...";
+    return <LoadingButton></LoadingButton>
   }
   if (!orders || orders.length === 0) {
     return "No orders found";
