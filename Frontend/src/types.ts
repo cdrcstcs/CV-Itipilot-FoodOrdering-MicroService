@@ -1,10 +1,9 @@
 export type User = {
-  _id: string;
   email: string;
   name: string;
-  addressLine1: string;
-  city: string;
-  country: string;
+  latitude : string,
+  longtitude : string,
+  imageId: string
 };
 
 export type MenuItem = {
@@ -23,7 +22,7 @@ export type Restaurant = {
   estimatedDeliveryTime: number;
   cuisines: string[];
   menuItems: MenuItem[];
-  imageUrl: string;
+  imageId: string;
   lastUpdated: string;
 };
 
@@ -44,10 +43,11 @@ export type Order = {
     quantity: string;
   }[];
   deliveryDetails: {
-    name: string;
-    addressLine1: string;
-    city: string;
     email: string;
+    name: string;
+    latitude : string,
+    longtitude : string,
+    imageId: string
   };
   totalAmount: number;
   status: OrderStatus;
@@ -62,10 +62,10 @@ export type CreateOrderType = {
     quantity: string;
   }[];
   deliveryDetails: {
-    name: string;
-    addressLine1: string;
-    city: string;
     email: string;
+    name: string;
+    latitude : string,
+    longtitude : string,
   };
   restaurantId: string;
 }

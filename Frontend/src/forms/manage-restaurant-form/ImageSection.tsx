@@ -7,13 +7,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Control } from "react-hook-form";
+import { useUploadImage, useGetImageById } from "@/api/ImageApi";
 
 const ImageSection = () => {
   const { control, watch } = useFormContext();
-
-  const existingImageUrl = watch("imageUrl");
-
+  const { uploadImage} = useUploadImage();
+  const imageId = watch("imageId");
+  const { imageUrl: existingImage} = useGetImageById(imageId);
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const imageFile = event.target.files?.[0];
+      if (!imageFile) return null;
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      const imageIdRes = await uploadImage(formData);
+      console.log("Uploaded image URL:", imageIdRes);
+      return imageIdRes;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
   return (
     <div className="space-y-2">
       <div>
@@ -23,19 +37,20 @@ const ImageSection = () => {
           search results. Adding a new image will overwrite the existing one.
         </FormDescription>
       </div>
-
       <div className="flex flex-col gap-8 md:w-[50%]">
-        {existingImageUrl && (
+        {/* Display existing image if available */}
+        {(existingImage) && (
           <AspectRatio ratio={16 / 9}>
             <img
-              src={existingImageUrl}
+              src={existingImage}
+              alt="Existing Image"
               className="rounded-md object-cover h-full w-full"
             />
           </AspectRatio>
         )}
         <FormField
-          control={control}
-          name="imageFile"
+          control={control as Control} // Ensure control is typed correctly
+          name="imageId"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -45,9 +60,9 @@ const ImageSection = () => {
                   accept=".jpg, .jpeg, .png"
                   onChange={(event) =>
                     field.onChange(
-                      event.target.files ? event.target.files[0] : null
+                      handleImageUpload(event)
                     )
-                  }
+                  }                
                 />
               </FormControl>
               <FormMessage />
@@ -58,5 +73,4 @@ const ImageSection = () => {
     </div>
   );
 };
-
 export default ImageSection;

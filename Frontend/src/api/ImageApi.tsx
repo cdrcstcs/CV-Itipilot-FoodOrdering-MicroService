@@ -1,20 +1,19 @@
 import { useMutation } from "react-query";
 import { useQuery } from "react-query";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const useUploadImage = () => {
-  const uploadImageRequest = async (formData: FormData): Promise<string> => {
-    const response = await fetch(`${API_BASE_URL}/api/upload`, {
+  const uploadImageRequest = async (image: FormData): Promise<string> => {
+    const response = await fetch(`http://localhost:7000/upload`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust as per your authentication method
       },
-      body: formData,
+      body: image,
     });
     if (!response.ok) {
       throw new Error("Failed to upload image");
     }
     const data = await response.json();
-    return data.image; // Assuming the API responds with the image path or ID
+    return data._id; // Assuming the API responds with the image path or ID
   };
   const {
     mutateAsync: uploadImage,
@@ -26,7 +25,7 @@ export const useUploadImage = () => {
 };
 export const useGetImageById = (imageId: string) => {
   const getImageByIdRequest = async (): Promise<string> => {
-    const response = await fetch(`${API_BASE_URL}/api/images/${imageId}`, {
+    const response = await fetch(`http://localhost:7000/images/${imageId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust as per your authentication method
       },

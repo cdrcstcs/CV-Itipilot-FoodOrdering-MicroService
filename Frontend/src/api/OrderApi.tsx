@@ -1,29 +1,20 @@
 import { Order } from "@/types";
 import { CreateOrderType } from "@/types";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+import { getCookie } from "@/usertoken";
 export const useGetMyOrders = () => {
-  const { getAccessTokenSilently } = useAuth0();
-
   const getMyOrdersRequest = async (): Promise<Order[]> => {
-    const accessToken = await getAccessTokenSilently();
-
-    const response = await fetch(`${API_BASE_URL}/api/order`, {
+    const response = await fetch(`http://localhost:7000/order`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getCookie('usertoken')}`,
       },
     });
-
     if (!response.ok) {
       throw new Error("Failed to get orders");
     }
-
     return response.json();
   };
-
   const { data: orders, isLoading } = useQuery(
     "fetchMyOrders",
     getMyOrdersRequest,
@@ -31,31 +22,23 @@ export const useGetMyOrders = () => {
       refetchInterval: 5000,
     }
   );
-
   return { orders, isLoading };
 };
-
 export const useCreateOrder = () => {
-  const { getAccessTokenSilently } = useAuth0();
-
   const createOrderRequest = async (newOrder: CreateOrderType): Promise<CreateOrderType> => {
-    const accessToken = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/api/order`, {
+    const response = await fetch(`http://localhost:7000/order`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${getCookie('usertoken')}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newOrder),
     });
-
     if (!response.ok) {
       throw new Error("Failed to create order");
     }
-
     return response.json();
   };
-
   const { mutate: createOrder, isError, error } = useMutation(
     createOrderRequest,
     {
@@ -67,6 +50,5 @@ export const useCreateOrder = () => {
       },
     }
   );
-
   return { createOrder, isError, error };
 };

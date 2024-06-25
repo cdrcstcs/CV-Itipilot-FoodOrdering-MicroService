@@ -9,6 +9,9 @@ import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "@/components/CheckoutButton";
 import { useCreateOrder } from "@/api/OrderApi"; // Assuming this is where you define useCreateOrder
+import { useGetMyUser } from "@/api/MyUserApi";
+import LoadingButton from "@/components/LoadingButton";
+import { useGetImageById } from "@/api/ImageApi";
 export type CartItem = {
   _id: string;
   name: string;
@@ -16,8 +19,17 @@ export type CartItem = {
   quantity: number;
 };
 const DetailPage = () => {
+  const { currentUser, isLoading: isUserLoading } = useGetMyUser();
+  if (isUserLoading) {
+    return <LoadingButton></LoadingButton>;
+  }
+  if (!currentUser) {
+    return <LoadingButton></LoadingButton>;
+  }
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+  
+  const { imageUrl: existingImage} = restaurant ? useGetImageById(restaurant.imageId) : {imageUrl: null};
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
     return storedCartItems ? JSON.parse(storedCartItems) : [];
@@ -77,11 +89,10 @@ const DetailPage = () => {
       })),
       restaurantId: restaurant._id,
       deliveryDetails: {
-        name: "John Doe", // Replace with actual user data
-        addressLine1: "123 Main St", // Replace with actual user data
-        city: "New York", // Replace with actual user data
-        country: "USA", // Replace with actual user data
-        email: "john.doe@example.com", // Replace with actual user data
+        name: currentUser.name,
+        email: currentUser.email,
+        longtitude: currentUser.longtitude,
+        latitude: currentUser.latitude,
       },
     };
     try {
@@ -96,12 +107,12 @@ const DetailPage = () => {
   }
   return (
     <div className="flex flex-col gap-10">
-      <AspectRatio ratio={16 / 5}>
+      {existingImage?<AspectRatio ratio={16 / 5}>
         <img
-          src={restaurant.imageUrl}
+          src={existingImage}
           className="rounded-md object-cover h-full w-full"
         />
-      </AspectRatio>
+      </AspectRatio>: null}
       <div className="grid md:grid-cols-[4fr_2fr] gap-5 md:px-32">
         <div className="flex flex-col gap-4">
           <RestaurantInfo restaurant={restaurant} />

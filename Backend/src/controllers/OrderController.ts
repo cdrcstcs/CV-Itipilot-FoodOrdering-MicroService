@@ -8,7 +8,6 @@ const getMyOrders = async (req: AuthenticatedRequest, res: Response) => {
     const orders = await Order.find({ user: req.userId })
       .populate("restaurant")
       .populate("user");
-
     res.json(orders);
   } catch (error) {
     console.log(error);

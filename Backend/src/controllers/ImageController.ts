@@ -8,7 +8,6 @@ async function uploadImage(req: Request, res: Response) {
         const image = new Image({
             image: req.body
         });
-
         const savedImage = await image.save();
         res.json({ image: savedImage });
     } catch (error) {
