@@ -14,13 +14,13 @@ const ImageSection = () => {
   const { control, watch } = useFormContext();
   const { uploadImage} = useUploadImage();
   const imageId = watch("imageId");
-  const { imageUrl: existingImage} = useGetImageById(imageId);
+  const { imageUrl: existingImage} = useGetImageById(imageId) || {imageUrl: null};
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const imageFile = event.target.files?.[0];
       if (!imageFile) return null;
       const formData = new FormData();
-      formData.append("image", imageFile);
+      formData.append("file", imageFile);
       const imageIdRes = await uploadImage(formData);
       console.log("Uploaded image URL:", imageIdRes);
       return imageIdRes;

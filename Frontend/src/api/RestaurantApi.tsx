@@ -38,7 +38,7 @@ export const useSearchRestaurants = (
     }
     return response.json();
   };
-  const { data: results, isLoading } = useQuery(
+  const { data: results, isLoading, isError, refetch } = useQuery(
     ["searchRestaurants", searchState],
     createSearchRequest,
     { enabled: !!city }
@@ -46,5 +46,7 @@ export const useSearchRestaurants = (
   return {
     results,
     isLoading,
+    isError,
+    refetch
   };
 };

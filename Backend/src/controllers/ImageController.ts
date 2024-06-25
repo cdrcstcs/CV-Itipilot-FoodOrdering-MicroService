@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import Image from "../models/Image";
 async function uploadImage(req: Request, res: Response) {
     try {
-        if (!req.body) {
+        if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded.' });
         }
+        console.log(req.file?.filename);
         const image = new Image({
-            image: req.body
+            image: req.file.filename
         });
         const savedImage = await image.save();
         res.json({ image: savedImage });

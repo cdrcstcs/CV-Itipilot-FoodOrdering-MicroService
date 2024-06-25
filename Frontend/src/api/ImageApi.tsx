@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 import { useQuery } from "react-query";
 export const useUploadImage = () => {
   const uploadImageRequest = async (image: FormData): Promise<string> => {
-    const response = await fetch(`http://localhost:7000/upload`, {
+    const response = await fetch(`http://localhost:7000/image`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust as per your authentication method
@@ -10,10 +10,11 @@ export const useUploadImage = () => {
       body: image,
     });
     if (!response.ok) {
+      console.log('haha');
       throw new Error("Failed to upload image");
     }
     const data = await response.json();
-    return data._id; // Assuming the API responds with the image path or ID
+    return data.image._id; // Assuming the API responds with the image path or ID
   };
   const {
     mutateAsync: uploadImage,
@@ -25,7 +26,7 @@ export const useUploadImage = () => {
 };
 export const useGetImageById = (imageId: string) => {
   const getImageByIdRequest = async (): Promise<string> => {
-    const response = await fetch(`http://localhost:7000/images/${imageId}`, {
+    const response = await fetch(`http://localhost:7000/image/${imageId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust as per your authentication method
       },

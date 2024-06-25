@@ -1,30 +1,14 @@
-import { useEffect, useState } from 'react';
 import LoadingButton from './LoadingButton';
+import { useGetImageById } from '@/api/ImageApi';
 export const Avatar = ({ imageId }: { imageId: string }) => {
-  const [image, setImage] = useState<string | null>(null);
-
-  const fetchImage = async () => {
-    try {
-      const response = await fetch(`http://localhost:4500/map_i/${imageId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch image');
-      }
-      const imageData = await response.json();
-      setImage(imageData.image);
-    } catch (error) {
-      console.error('Error fetching image:', error);
-    }
-  };
-  useEffect(() => {
-    fetchImage();
-  }, []);
+  const { imageUrl: existingImage} = useGetImageById(imageId);
   return (
     <div>
-      {image ? (
+      {existingImage ? (
         <div>
           <img
-            src={`http://localhost:4000/${image}`}
-            alt={image}
+            src={`http://localhost:4000/${existingImage}`}
+            alt={existingImage}
             style={{ width: '30px', height: '30px', borderRadius: '50%' }}
           />
         </div>
