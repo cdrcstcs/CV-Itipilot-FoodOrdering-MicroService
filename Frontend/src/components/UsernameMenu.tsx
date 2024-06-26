@@ -20,16 +20,16 @@ const UsernameMenu = () => {
   }
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-orange-500 gap-2">
+      <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-blue-500 gap-2">
         <Avatar imageId={currentUser.imageId}></Avatar>
-        <CircleUserRound className="text-orange-500" />
+        <CircleUserRound className="text-blue-500" />
         {currentUser.name}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
           <Link
             to="/manage-restaurant"
-            className="font-bold hover:text-orange-500"
+            className="font-bold hover:text-blue-500"
           >
             Manage Restaurant
           </Link>

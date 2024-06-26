@@ -11,7 +11,7 @@ const CheckoutButton = ({ onCheckout, disabled }: Props) => {
     return <LoadingButton />;
   }
   return (
-      <Button disabled={disabled} onClick={onCheckout} className="bg-orange-500 flex-1">
+      <Button disabled={disabled} onClick={onCheckout} className="bg-blue-500 flex-1">
         Go to checkout
       </Button>
   );
