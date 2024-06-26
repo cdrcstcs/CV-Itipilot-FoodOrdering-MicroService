@@ -6,8 +6,8 @@ const orderSchema = new mongoose.Schema({
   deliveryDetails: {
     email: { type: String, required: true },
     name: { type: String, required: true },
-    addressLine1: { type: String, required: true },
-    city: { type: String, required: true },
+    longtitude: { type: Number, required: true },
+    latitude: { type: Number, required: true },
   },
   cartItems: [
     {

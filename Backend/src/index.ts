@@ -13,11 +13,10 @@ mongoose
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static('uploads'));
 app.use("/image", imageRoute);
 app.use("/user", myUserRoute);
-app.use("/myrestaurant", myRestaurantRoute);
+app.use("/myres/", myRestaurantRoute);
 app.use("/restaurant", restaurantRoute);
 app.use("/order", orderRoute);
 app.listen(7000, () => {

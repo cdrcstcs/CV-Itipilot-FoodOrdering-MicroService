@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { getCookie } from "@/usertoken";
 export const useGetMyRestaurant = () => {
   const getMyRestaurantRequest = async (): Promise<Restaurant> => {
-    const response = await fetch(`http://localhost:7000/myrestaurant`, {
+    const response = await fetch(`http://localhost:7000/myres`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getCookie('usertoken')}`,
@@ -25,7 +25,8 @@ export const useCreateMyRestaurant = () => {
   const createMyRestaurantRequest = async (
     restaurantFormData: FormData
   ): Promise<Restaurant> => {
-    const response = await fetch(`http://localhost:7000/myrestaurant`, {
+    console.log(...restaurantFormData);
+    const response = await fetch(`http://localhost:7000/myres`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${getCookie('usertoken')}`,
@@ -55,7 +56,7 @@ export const useUpdateMyRestaurant = () => {
   const updateRestaurantRequest = async (
     restaurantFormData: FormData
   ): Promise<Restaurant> => {
-    const response = await fetch(`http://localhost:7000/myrestaurant`, {
+    const response = await fetch(`http://localhost:7000/myres`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${getCookie('usertoken')}`,
@@ -83,7 +84,7 @@ export const useUpdateMyRestaurant = () => {
 };
 export const useGetMyRestaurantOrders = () => {
   const getMyRestaurantOrdersRequest = async (): Promise<Order[]> => {
-    const response = await fetch(`http://localhost:7000/myrestaurant/order`, {
+    const response = await fetch(`http://localhost:7000/myres/order`, {
       headers: {
         Authorization: `Bearer ${getCookie('usertoken')}`,
         "Content-Type": "application/json",
@@ -109,7 +110,7 @@ export const useUpdateMyRestaurantOrder = () => {
     updateStatusOrderRequest: UpdateOrderStatusRequest
   ) => {
     const response = await fetch(
-      `http://localhost:7000/myrestaurant/order/${updateStatusOrderRequest.orderId}/status`,
+      `http://localhost:7000/myres/order/${updateStatusOrderRequest.orderId}/status`,
       {
         method: "PATCH",
         headers: {

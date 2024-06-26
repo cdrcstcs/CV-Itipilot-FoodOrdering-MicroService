@@ -88,6 +88,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     const formData = new FormData();
 
     formData.append("restaurantName", formDataJson.restaurantName);
+    
     formData.append("city", formDataJson.city);
     formData.append("country", formDataJson.country);
 
@@ -109,11 +110,10 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
         (menuItem.price * 100).toString()
       );
     });
-
     if (formDataJson.imageId) {
-      formData.append(`imageFile`, formDataJson.imageId);
+      formData.append(`imageId`, formDataJson.imageId);
     }
-
+    console.log(formData);
     onSave(formData);
   };
   return (

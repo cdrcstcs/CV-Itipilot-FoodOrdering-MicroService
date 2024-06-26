@@ -13,6 +13,7 @@ const ManageRestaurantPage = () => {
   const { updateRestaurant, isLoading: isUpdateLoading } = useUpdateMyRestaurant();
   const { orders } = useGetMyRestaurantOrders();
   const isEditing = !!restaurant;
+  console.log(isEditing);
   return (
     <Tabs defaultValue="orders">
       <TabsList>

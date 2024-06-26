@@ -22,12 +22,6 @@ export type CartItem = {
 const DetailPage = () => {
   const navigate = useNavigate();
   const { currentUser, isLoading: isUserLoading } = useGetMyUser();
-  if (isUserLoading) {
-    return <LoadingButton></LoadingButton>;
-  }
-  if (!currentUser) {
-    return <LoadingButton></LoadingButton>;
-  }
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
   
@@ -37,6 +31,12 @@ const DetailPage = () => {
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
   const { createOrder, isError, error } = useCreateOrder(); // Hook to create order
+  if (isUserLoading) {
+    return <LoadingButton></LoadingButton>;
+  }
+  if (!currentUser) {
+    return <LoadingButton></LoadingButton>;
+  }
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItems) => {
       const existingCartItem = prevCartItems.find(
@@ -112,7 +112,7 @@ const DetailPage = () => {
     <div className="flex flex-col gap-10">
       {existingImage?<AspectRatio ratio={16 / 5}>
         <img
-          src={existingImage}
+          src={`http://localhost:7000/${existingImage}`}
           className="rounded-md object-cover h-full w-full"
         />
       </AspectRatio>: null}

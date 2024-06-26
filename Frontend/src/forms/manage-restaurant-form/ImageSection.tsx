@@ -1,33 +1,26 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext, Control } from "react-hook-form";
-import { useUploadImage, useGetImageById } from "@/api/ImageApi";
+import { useUploadImage } from "@/api/ImageApi";
 
 const ImageSection = () => {
-  const { control, watch } = useFormContext();
-  const { uploadImage} = useUploadImage();
-  const imageId = watch("imageId");
-  const { imageUrl: existingImage} = useGetImageById(imageId) || {imageUrl: null};
+  const { control, setValue} = useFormContext();
+  const { uploadImage } = useUploadImage();
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const imageFile = event.target.files?.[0];
-      if (!imageFile) return null;
+      if (!imageFile) return;
+
       const formData = new FormData();
       formData.append("file", imageFile);
-      const imageIdRes = await uploadImage(formData);
-      console.log("Uploaded image URL:", imageIdRes);
-      return imageIdRes;
+
+      const uploadedImageId = await uploadImage(formData);
+      setValue("imageId", uploadedImageId); // Assuming uploadedImageId is a string
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
+
   return (
     <div className="space-y-2">
       <div>
@@ -38,20 +31,10 @@ const ImageSection = () => {
         </FormDescription>
       </div>
       <div className="flex flex-col gap-8 md:w-[50%]">
-        {/* Display existing image if available */}
-        {(existingImage) && (
-          <AspectRatio ratio={16 / 9}>
-            <img
-              src={existingImage}
-              alt="Existing Image"
-              className="rounded-md object-cover h-full w-full"
-            />
-          </AspectRatio>
-        )}
         <FormField
-          control={control as Control} // Ensure control is typed correctly
+          control={control as Control}
           name="imageId"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormControl>
                 <Input
@@ -59,10 +42,8 @@ const ImageSection = () => {
                   type="file"
                   accept=".jpg, .jpeg, .png"
                   onChange={(event) =>
-                    field.onChange(
-                      handleImageUpload(event)
-                    )
-                  }                
+                    handleImageUpload(event)
+                  }
                 />
               </FormControl>
               <FormMessage />
@@ -73,4 +54,5 @@ const ImageSection = () => {
     </div>
   );
 };
+
 export default ImageSection;

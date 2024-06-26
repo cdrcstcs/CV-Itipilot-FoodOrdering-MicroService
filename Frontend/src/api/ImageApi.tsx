@@ -35,6 +35,7 @@ export const useGetImageById = (imageId: string) => {
       throw new Error("Failed to fetch image");
     }
     const data = await response.json();
+    console.log(data.image);
     return data.image; // Adjust as per your API response structure
   };
   const { data: imageUrl, isLoading, isError, error } = useQuery(

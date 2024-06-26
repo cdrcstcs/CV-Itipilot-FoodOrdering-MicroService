@@ -2,12 +2,13 @@ import { Restaurant } from "@/types";
 import { Link } from "react-router-dom";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { Banknote, Clock, Dot } from "lucide-react";
-
+import { useGetImageById } from "@/api/ImageApi";
 type Props = {
   restaurant: Restaurant;
 };
 
 const SearchResultCard = ({ restaurant }: Props) => {
+  const { imageUrl: existingImage} = restaurant ? useGetImageById(restaurant.imageId) : {imageUrl: null};
   return (
     <Link
       to={`/detail/${restaurant._id}`}
@@ -15,7 +16,7 @@ const SearchResultCard = ({ restaurant }: Props) => {
     >
       <AspectRatio ratio={16 / 6}>
         <img
-          src={restaurant.imageUrl}
+          src={`http://localhost:7000/${existingImage}`}
           className="rounded-md w-full h-full object-cover"
         />
       </AspectRatio>

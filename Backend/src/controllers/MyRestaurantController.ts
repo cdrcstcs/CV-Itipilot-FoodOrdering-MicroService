@@ -16,7 +16,9 @@ const getMyRestaurant = async (req: AuthenticatedRequest, res: Response) => {
   }
 };
 const createMyRestaurant = async (req: AuthenticatedRequest, res: Response) => {
+  console.log('hellohihi');
   try {
+    console.log(req.body.city);
     const restaurant = new Restaurant(req.body);
     restaurant.user = new mongoose.Types.ObjectId(req.userId);
     restaurant.lastUpdated = new Date();

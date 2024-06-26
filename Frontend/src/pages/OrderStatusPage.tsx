@@ -24,7 +24,7 @@ const OrderStatusPage = () => {
               {existingImage && (
                 <AspectRatio ratio={16 / 5}>
                   <img
-                    src={existingImage}
+                    src={`http://localhost:7000/${existingImage}`}
                     alt="Restaurant Image"
                     className="rounded-md object-cover h-full w-full"
                   />
