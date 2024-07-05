@@ -25,7 +25,7 @@ const DetailPage = () => {
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
   
-  const { imageUrl: existingImage} = restaurant ? useGetImageById(restaurant.imageId) : {imageUrl: null};
+  const { imageUrl: existingImage} = useGetImageById(restaurant? restaurant.imageId : "");
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
     return storedCartItems ? JSON.parse(storedCartItems) : [];
@@ -48,7 +48,7 @@ const DetailPage = () => {
           cartItem._id === menuItem._id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
-        );
+          );
       } else {
         updatedCartItems = [
           ...prevCartItems,

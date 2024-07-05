@@ -85,6 +85,7 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }: Props) => {
         </Button>
       </form>
     </Form>
+    
   );
 };
 

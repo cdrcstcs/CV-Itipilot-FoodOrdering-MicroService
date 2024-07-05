@@ -9,12 +9,12 @@ import { useGetMyUser } from "./api/MyUserApi";
 import LoadingButton from "./components/LoadingButton";
 const AppRoutes = () => {
   const { currentUser, isLoading: isUserLoading } = useGetMyUser();
-  if (isUserLoading) {
-    return <LoadingButton></LoadingButton>;
-  }
-  if (!currentUser) {
-    return <LoadingButton></LoadingButton>;
-  }
+  // if (isUserLoading) {
+  //   return <LoadingButton></LoadingButton>;
+  // }
+  // if (!currentUser) {
+  //   return <LoadingButton></LoadingButton>;
+  // }
   return (
     <Routes>
       <Route
