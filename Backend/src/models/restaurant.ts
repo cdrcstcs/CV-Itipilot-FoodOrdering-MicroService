@@ -8,7 +8,7 @@ const menuItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
 });
-export type MenuItemType = InferSchemaType<typeof menuItemSchema>;
+export type MenuItem = InferSchemaType<typeof menuItemSchema>;
 const restaurantSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   restaurantName: { type: String, required: true },
@@ -23,3 +23,5 @@ const restaurantSchema = new mongoose.Schema({
 });
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);
 export default Restaurant;
+
+

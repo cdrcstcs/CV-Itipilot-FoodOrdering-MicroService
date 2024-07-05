@@ -9,7 +9,8 @@ export const useGetMyOrders = () => {
       headers: {
         Authorization: `Bearer ${getCookie('usertoken')}`,
       },
-    });
+    }
+  );
     if (!response.ok) {
       throw new Error("Failed to get orders");
     }

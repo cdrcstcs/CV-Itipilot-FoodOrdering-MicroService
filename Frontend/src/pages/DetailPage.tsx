@@ -21,7 +21,7 @@ export type CartItem = {
 };
 const DetailPage = () => {
   const navigate = useNavigate();
-  const { currentUser, isLoading: isUserLoading } = useGetMyUser();
+  // const { currentUser, isLoading: isUserLoading } = useGetMyUser();
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
   
@@ -31,12 +31,12 @@ const DetailPage = () => {
     return storedCartItems ? JSON.parse(storedCartItems) : [];
   });
   const { createOrder, isError, error } = useCreateOrder(); // Hook to create order
-  if (isUserLoading) {
-    return <LoadingButton></LoadingButton>;
-  }
-  if (!currentUser) {
-    return <LoadingButton></LoadingButton>;
-  }
+  // if (isUserLoading) {
+  //   return <LoadingButton></LoadingButton>;
+  // }
+  // if (!currentUser) {
+  //   return <LoadingButton></LoadingButton>;
+  // }
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItems) => {
       const existingCartItem = prevCartItems.find(
@@ -91,10 +91,10 @@ const DetailPage = () => {
       })),
       restaurantId: restaurant._id,
       deliveryDetails: {
-        name: currentUser.name,
-        email: currentUser.email,
-        longtitude: currentUser.longtitude,
-        latitude: currentUser.latitude,
+        name: "name",
+        email: "email",
+        longtitude: 4,
+        latitude: 5,
       },
     };
     try {

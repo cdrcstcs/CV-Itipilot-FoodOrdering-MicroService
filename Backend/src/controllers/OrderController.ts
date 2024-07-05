@@ -3,9 +3,10 @@ import Order from "../models/order";
 import { AuthenticatedRequest } from "../interface/request";
 import Restaurant from "../models/restaurant";
 import mongoose from "mongoose";
+import User from "../models/user";
 const getMyOrders = async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const orders = await Order.find({ user: req.userId })
+    const orders = await Order.find({ user: (await User.findOne())?._id })
       .populate("restaurant")
       .populate("user");
     res.json(orders);
@@ -54,7 +55,7 @@ const createOrder = async (req: AuthenticatedRequest, res: Response) => {
     }
     const newOrder = new Order({
       restaurant: restaurantId,
-      user: req.userId,
+      user: (await User.findOne())?._id,
       deliveryDetails,
       cartItems,
       totalAmount,
