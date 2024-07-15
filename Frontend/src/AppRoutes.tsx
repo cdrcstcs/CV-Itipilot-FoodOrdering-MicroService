@@ -5,16 +5,7 @@ import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
-// import { useGetMyUser } from "./api/MyUserApi";
-// import LoadingButton from "./components/LoadingButton";
 const AppRoutes = () => {
-  // const { currentUser, isLoading: isUserLoading } = useGetMyUser();
-  // if (isUserLoading) {
-  //   return <LoadingButton></LoadingButton>;
-  // }
-  // if (!currentUser) {
-  //   return <LoadingButton></LoadingButton>;
-  // }
   return (
     <Routes>
       <Route

@@ -10,8 +10,8 @@ import Image from "./models/Image";
 import Order from "./models/order";
 import Restaurant from "./models/restaurant";
 import User from "./models/user";
+import 'dotenv/config'
 import { generateImageData, generateOrders, generateRestaurants, generateUsers } from "./data";
-const MONGODB = 'mongodb://localhost:27017/mongo-golang';
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use("/user", myUserRoute);
 app.use("/myres/", myRestaurantRoute);
 app.use("/restaurant", restaurantRoute);
 app.use("/order", orderRoute);
-mongoose.connect(MONGODB).then(async () => {
+mongoose.connect(process.env.MONGODB || "").then(async () => {
   await Image.deleteMany();
   await User.deleteMany();
   await Restaurant.deleteMany();
@@ -30,5 +30,5 @@ mongoose.connect(MONGODB).then(async () => {
   await User.insertMany(await generateUsers());
   await Restaurant.insertMany(await generateRestaurants());
   await Order.insertMany(await generateOrders());
-  app.listen(7000, () => console.log(`Server running on PORT: 7000`));
+  app.listen(process.env.PORT, () => console.log(`Server running on PORT: 7000`));
 }).catch((error) => console.log(`${error} did not connect`));

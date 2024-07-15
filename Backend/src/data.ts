@@ -88,6 +88,58 @@ const generateMenuItems = (): MenuItemType[] => {
   }
   return menuItems;
 };
+
+const cuisineList =[
+  "American",
+  "BBQ",
+  "Breakfast",
+  "Burgers",
+  "Cafe",
+  "Chinese",
+  "Desserts",
+  "French",
+  "Greek",
+  "Healthy",
+  "Indian",
+  "Italian",
+  "Japanese",
+  "Mexican",
+  "Noodles",
+  "Organic",
+  "Pasta",
+  "Pizza",
+  "Salads",
+  "Seafood",
+  "Spanish",
+  "Steak",
+  "Sushi",
+  "Tacos",
+  "Tapas",
+  "Vegan",
+];
+const cities = [
+  "New York",
+  "Los Angeles",
+  "Chicago",
+  "Houston",
+  "Phoenix",
+  "Philadelphia",
+  "San Antonio",
+  "San Diego",
+  "Dallas",
+  "San Jose",
+  "Austin",
+  "Jacksonville",
+  "Fort Worth",
+  "Columbus",
+  "Charlotte",
+  "San Francisco",
+  "Indianapolis",
+  "Seattle",
+  "Denver",
+  "Washington"
+]
+
 const generateRestaurants = async (): Promise<RestaurantType[]> => {
   const restaurants: RestaurantType[] = [];
   const countries: string[] = [
@@ -105,17 +157,17 @@ const generateRestaurants = async (): Promise<RestaurantType[]> => {
   const userIds: mongoose.Types.ObjectId[] = (await User.find()).map(({ _id }) => _id);
   const imageIds: mongoose.Types.ObjectId[] = (await Image.find()).map(({ _id }) => _id);
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     const menuItems: MenuItemType[] = generateMenuItems();
     const restaurant: RestaurantType = {
       _id: new mongoose.Types.ObjectId,
       user: userIds[getRandomInt(0, userIds.length - 1)],
       restaurantName: `Restaurant ${i + 1}`,
-      city: "Random City",
+      city: cities[getRandomInt(0, cities.length - 1)],
       country: countries[getRandomInt(0, countries.length - 1)],
       deliveryPrice: Math.floor(Math.random() * 10) + 5, // Random delivery price between 5 and 14
       estimatedDeliveryTime: Math.floor(Math.random() * 60) + 30, // Random delivery time between 30 and 89 minutes
-      cuisines: ["Cuisine1", "Cuisine2"], // Replace with actual cuisines if needed
+      cuisines: [cuisineList[getRandomInt(0,cuisineList.length -1)],cuisineList[getRandomInt(0,cuisineList.length -1)],cuisineList[getRandomInt(0,cuisineList.length -1)]], // Replace with actual cuisines if needed
       menuItems: menuItems,
       imageId: imageIds[getRandomInt(0, imageIds.length - 1)], // Replace with actual image ID if needed
       lastUpdated: new Date(),
